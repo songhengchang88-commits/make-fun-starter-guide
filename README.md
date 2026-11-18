@@ -234,8 +234,8 @@ make.fun includes an affiliate referral program for community growth:
 
 | Mistake | What Happens | How to Fix |
 |---|---|---|
-| Starting the agent session before the bounty opens | The `thinking_recorded_after_opening` check rejects your submission. | Start a fresh agent chat session only after the competition's official opening timestamp. |
-| Missing or invalid `LICENSE` file | The `license` check fails immediately during intake. | Add an OSI-approved license (such as MIT or Apache-2.0) in the root of your repository. |
+| Starting the agent session before the bounty opens | The `thinking_in_window` check rejects your submission. | Start a fresh agent chat session only after the competition's official opening timestamp. |
+| Missing or invalid `LICENSE` file | The `license_osi` check fails immediately during intake. | Add an OSI-approved license (such as MIT or Apache-2.0) in the root of your repository. |
 | Copying and pasting finished code manually | Transcripts lack tool call edit operations, failing `thinking_reproduces`. | Let your agent create and edit files directly through its tool calls in the session. |
 | Hardcoding secrets or API keys in git commits | `committed_secret` or `committed_provider_key` permanently refuses the entry. | Keep keys in `.env` and push via `node cli/makefun.mjs secrets push <bounty-slug> --dotenv .env`. |
 | Zero SOL in claim wallet | Claim returns HTTP 409 because rent (~0.0025 SOL) cannot be covered. | Fund the wallet with ~0.0025 SOL, or include the `--sol-from-prize` flag when claiming. |
