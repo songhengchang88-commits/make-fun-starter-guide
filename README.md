@@ -1,403 +1,318 @@
-# Build Software with AI Agents & Win USDC Bounties: The make.fun Starter Guide
+# Getting Started with make.fun: Build Software with AI Agents for USDC Bounties
 
 [![make.fun · bring-the-humans-02](https://make.fun/badge/bring-the-humans-02.svg)](https://make.fun/bounty/bring-the-humans-02?utm_source=github&utm_medium=readme&utm_campaign=bring-the-humans-02)
 [![rank](https://make.fun/badge/bring-the-humans-02/songhengchang88-commits/make-fun-starter-guide/rank.svg)](https://make.fun/bounty/bring-the-humans-02/leaderboard?utm_source=github&utm_medium=readme&utm_campaign=bring-the-humans-02)
-[![reward](https://make.fun/badge/bring-the-humans-02/songhengchang88-commits/make-fun-starter-guide/reward.svg)](https://make.fun/bounty/bring-the-humans-02?utm_source=github&utm_medium=readme&utm_campaign=bring-the-humans-02)
+[![reward](https://make.fun/badge/bring-the-humans-02/songhengchang88-commits/make-fun-starter-guide/reward.svg)](https://make.fun/bounty/bring-the-humans-02/leaderboard?utm_source=github&utm_medium=readme&utm_campaign=bring-the-humans-02)
+
+make.fun is a competitive development platform where software builders and their AI coding assistants build projects for USDC rewards on Solana. Whether you are an experienced software engineer or an AI developer, you can enter objective programming contests spanning full-stack applications, algorithms, predictive modeling, and developer utilities. Competitions lock their reward funds into Solana on-chain escrows before starting, grade solutions through automated sandbox runs, and verify authentic implementation using AI session transcripts.
 
 > **Join make.fun today:**  
-> Sign up using the referral link: **[https://make.fun/r/bk1nsx6n](https://make.fun/r/bk1nsx6n)**  
-> Referral code: `bk1nsx6n`
-
----
-
-## What is make.fun?
-
-**make.fun** is a competitive development platform where software engineers and their AI coding assistants build projects for real cash bounties paid in **USDC on Solana**.
-
-Instead of speculative token games or subjective hackathons, make.fun runs structured, objective software competitions across web services, algorithmic trading, smart contracts, forecasting models, and developer tooling.
-
-### Why It Is Worth 15 Minutes of Your Time
-
-- **Pre-Funded On-Chain Escrows**: When a bounty launches, 100% of its prize purse is locked into an audited, open-source Solana smart contract ([github.com/makedotfun/prize-escrow](https://github.com/makedotfun/prize-escrow)). Entrants know upfront that prizes are guaranteed upon verified placement.
-- **Fair Play Through Transcripts**: You do not just submit a Git commit; you submit the cryptographic session logs (transcripts) generated while your AI agent authored the code. This prevents plagiarism, ensures solutions are actually built with AI, and rewards real engineering capability.
-- **Use the Tools You Already Know**: The platform kit automatically discovers sessions from **Claude Code**, **Cursor**, **Codex**, **Gemini CLI**, **GitHub Copilot**, **Cline**, **Roo Code**, **Aider**, **opencode**, and dozens of others.
-- **Free to Enter**: Bounties are generally free to enter. You only pay for your own LLM model API tokens.
-- **Objective Grading**: Every submission is tested and benchmarked automatically in sandboxed environments (often run twice to verify determinism). Ties are broken simply and transparently by the earliest submission receipt.
-
----
-
-## Fast Path: Your First Entry in ~15 Minutes
-
-Here is the condensed walkthrough for developers ready to jump straight into action:
-
-1. **Sign Up**: Register at **[https://make.fun/r/bk1nsx6n](https://make.fun/r/bk1nsx6n)** (`bk1nsx6n`), connect your GitHub account, and pair your local terminal using `node cli/makefun.mjs login`.
-2. **Select a Bounty**: Pick an active competition on [make.fun](https://make.fun) that fits your technical background.
-3. **Download the Kit**: Unpack the competition bundle with `curl -sSL "https://make.fun/c/<bounty-slug>/kit" | tar xz`.
-4. **Develop with Your Agent**: Create a public GitHub repository, add an OSI-approved license (e.g., MIT), and have your AI agent implement the solution in a clean session started *after* the bounty opening time.
-5. **Package Transcripts**: Run `node cli/makefun.mjs bundle --repo ../my-entry --out transcripts.tar.gz`.
-6. **Verify Locally**: Run `node cli/makefun.mjs check --kit . --repo ../my-entry --transcripts transcripts.tar.gz`.
-7. **Submit**: Run `node cli/makefun.mjs submit` with your repository URL, commit hash, bundle, and keypair.
-
-Let us now examine each stage in detail so you avoid common pitfalls.
+> Sign up at **[https://make.fun/r/bk1nsx6n](https://make.fun/r/bk1nsx6n)** (referral code: `bk1nsx6n`).
 
 ---
 
 ## Contents
 
-- [How make.fun Works: The Lifecycle](#how-makefun-works-the-lifecycle)
-- [Prerequisites](#prerequisites)
-- [Step 1: Create Your Account & Connect CLI](#step-1-create-your-account--connect-cli)
-- [Step 2: Pick the Right Bounty](#step-2-pick-the-right-bounty)
-- [Step 3: Unpack the Bounty Kit & Test Locally](#step-3-unpack-the-bounty-kit--test-locally)
-- [Step 4: Build Your Solution with an AI Agent](#step-4-build-your-solution-with-an-ai-agent)
-- [Step 5: Bundle Your Transcripts Cleanly](#step-5-bundle-your-transcripts-cleanly)
-- [Step 6: Run Local Checks & Submit](#step-6-run-local-checks--submit)
-- [Step 7: Monitor Status, Fix Issues, & Resubmit](#step-7-monitor-status-fix-issues--resubmit)
-- [Step 8: Claim Your USDC Reward](#step-8-claim-your-usdc-reward)
-- [Let Your Agent Do It: Autonomous Prompting](#let-your-agent-do-it-autonomous-prompting)
-- [Earn With Referrals](#earn-with-referrals)
-- [Practical Tips & Pitfalls to Avoid](#practical-tips--pitfalls-to-avoid)
-- [Frequently Asked Questions (FAQ)](#frequently-asked-questions-faq)
-- [Official Links & Community](#official-links--community)
+- [Quick Path: Zero to First Entry in 5 Minutes](#quick-path-zero-to-first-entry-in-5-minutes)
+- [Account and CLI Login](#account-and-cli-login)
+- [Choose a Bounty](#choose-a-bounty)
+- [Get the Kit and Read RULES.txt](#get-the-kit-and-read-rulestxt)
+- [Build with Your Own Agent](#build-with-your-own-agent)
+- [Bundle Transcripts](#bundle-transcripts)
+- [Check Before Submit](#check-before-submit)
+- [Submit Your Entry](#submit-your-entry)
+- [Status, Fixing a Refusal, Resubmitting](#status-fixing-a-refusal-resubmitting)
+- [Claiming the Reward](#claiming-the-reward)
+- [Let Your Agent Do It](#let-your-agent-do-it)
+- [Referral Program](#referral-program)
+- [Common Mistakes](#common-mistakes)
+- [Frequently Asked Questions](#frequently-asked-questions)
+- [Official Links](#official-links)
 - [中文快速上手](#中文快速上手)
 
 ---
 
-## How make.fun Works: The Lifecycle
+## Quick Path: Zero to First Entry in 5 Minutes
 
-Every competition transitions through predictable stages:
+Follow this condensed path to go from sign-up to your first submission:
 
-| Stage | Description |
-|---|---|
-| **Open** | The bounty opens with prize funds locked in on-chain escrow. Entrants build their solutions alongside AI coding agents. |
-| **Submitted** | Entrants upload a public GitHub repository commit alongside the session transcripts that generated the code. |
-| **Checked** | An automated 11-step transcript gate validates that the code was authentically authored by the agent within the competition window. |
-| **Scored** | Entries are evaluated in identical, isolated Docker sandboxes against the competition's published grading criteria. |
-| **Paid** | After the challenge and attestation periods conclude, winning entrants claim USDC directly from the escrow to their Solana wallet. |
-
----
-
-## Prerequisites
-
-Before beginning, confirm you have:
-
-- **An AI Coding Agent**: Claude Code, Codex, Cursor, GitHub Copilot, Gemini CLI, Cline, Roo Code, Aider, opencode, or any harness that logs interaction sessions.
-- **Node.js 22 or Later**: The CLI (`cli/makefun.mjs`) is self-contained with zero external dependencies and runs on Node 22+.
-- **A GitHub Account**: Required to publish the public repository containing your code and documentation.
-- **A Solana Wallet**: Used to sign submissions and receive USDC payouts. The make.fun CLI automatically creates a local Solana keypair for you if you do not have one.
+1. **Sign Up and Connect**: Register at **[https://make.fun/r/bk1nsx6n](https://make.fun/r/bk1nsx6n)** (`bk1nsx6n`), connect your GitHub account in your profile, and pair your CLI using `node cli/makefun.mjs login --origin https://make.fun`.
+2. **Pick a Bounty**: Browse open competitions on [make.fun](https://make.fun) and inspect tasks, deadlines, and requirements.
+3. **Download the Kit**: Extract the competition bundle with `curl -sSL "https://make.fun/c/<bounty-slug>/kit" | tar xz` and enter the `<bounty-slug>-kit` directory.
+4. **Develop with Your AI Agent**: Create a public GitHub repository with an OSI-approved license (e.g., MIT), and have your agent build the solution in a clean session started *after* the bounty opening time.
+5. **Bundle Transcripts**: From the unpacked kit directory, run `node cli/makefun.mjs bundle --repo ../my-entry --out transcripts.tar.gz`.
+6. **Test Locally**: Run `node cli/makefun.mjs check --kit . --repo ../my-entry --transcripts transcripts.tar.gz`.
+7. **Submit**: Send your entry using `node cli/makefun.mjs submit --competition <bounty-slug> --repo-url https://github.com/<owner>/<repo> --commit <commit-sha> --title "<title>" --bundle transcripts.tar.gz --keypair ~/.makefun/keypairs/https_make.fun.json`.
 
 ---
 
-## Step 1: Create Your Account & Connect CLI
+## Account and CLI Login
 
-1. Go to **[https://make.fun/r/bk1nsx6n](https://make.fun/r/bk1nsx6n)** and click **Sign in** in the top navigation.
-2. You can authenticate using GitHub, Google, Apple, Discord, or directly with a Solana wallet (wallet sign-in does not trigger any blockchain transaction).
-3. Open your profile (top-right avatar) to set your display handle.
-4. **Important**: Link your GitHub account on your profile. The owner of the submitted GitHub repository must match the GitHub account linked to your make.fun profile.
+### Create Your Profile
+1. Open **[https://make.fun/r/bk1nsx6n](https://make.fun/r/bk1nsx6n)** (code `bk1nsx6n`) and click **Sign in** at the top right.
+2. Sign in via GitHub, Google, Apple, Discord, or a Solana wallet. None costs anything, and signing with a wallet sends no blockchain transaction.
+3. In your profile settings, link your GitHub account and specify your Solana payout wallet.
+4. Find your own referral link and code in the **Referrals** tab of your profile.
 
-### Pairing Your Terminal CLI
-
-The CLI needs a one-time pairing to associate your machine's commands with your make.fun account:
+### Pair the Command-Line Tool
+The CLI allows your environment to interact directly with make.fun under your account. Inside any downloaded competition kit folder, run:
 
 ```bash
 node cli/makefun.mjs login --origin https://make.fun
 ```
 
-The CLI prints:
-```text
-Open <link> and approve code XXXX-XXXX
-```
-
-Open the link in your browser while logged in and click approve. 
-
-On first login, the CLI provisions a dedicated Solana keypair on your machine:
-```text
-~/.makefun/keypairs/https_make.fun.json
-```
-This keypair signs your contest submissions and serves as your payout wallet for claiming bounty rewards. You can inspect permissions anytime in your profile under **API keys → Paired agents**.
+The command outputs an approval link and code (e.g., `Open <link> and approve code XXXX-XXXX`). Open the link in your browser while signed in, confirm the code, and approve. The CLI stores your credentials in `~/.makefun/credentials` and creates a local Solana keypair at `~/.makefun/keypairs/https_make.fun.json` to sign entries and claim rewards.
 
 ---
 
-## Step 2: Pick the Right Bounty
+## Choose a Bounty
 
-The homepage categorizes active competitions under **Trending**, **New**, and **Ending Soon**, spanning categories like Code, Games, Trading, Forecasting, and Growth.
+Visit the make.fun home page to browse active competitions. Each bounty card shows its task description, submission deadline, prize purse, and entry terms:
 
-Review the bounty page carefully before writing code:
-- **Task Description**: What needs to be built (e.g., a trading algorithm, a simulation agent, a developer tutorial).
-- **Rules (`RULES.txt`)**: Specific constraints, input formats, scoring equations, and tie-breakers.
-- **Payout Table**: The prize distribution across places (e.g., 1st, 2nd, top 10, top 50).
-- **Deadlines**: The precise submission cutoff and the result finalization schedule.
+- **Requirements**: Read the deliverables and scoring methods. Some bounties evaluate code correctness, performance, or predictive accuracy.
+- **Prerequisites**: Check whether the bounty requires specific runtimes, external dependencies, or container engines.
+- **Entry Fees and Limits**: Most bounties are free to enter; if an entry fee applies, the bounty page clearly states it. Daily entry limits and account quotas vary by competition and geographic tier—always check the bounty's `RULES.txt` / requirements for exact details.
 
 ---
 
-## Step 3: Unpack the Bounty Kit & Test Locally
+## Get the Kit and Read RULES.txt
 
-Each competition supplies a kit with official rules, validation tools, and sample datasets.
+Every bounty provides a downloadable kit containing `RULES.txt`, test data, starter templates, and the CLI tool.
 
-Download the kit from your terminal:
+Here `<bounty-slug>` refers to the bounty's URL slug (for example, `bring-the-humans-02`). Download and extract the kit:
 
 ```bash
 curl -sSL "https://make.fun/c/<bounty-slug>/kit" | tar xz
 cd <bounty-slug>-kit
-node cli/makefun.mjs --help
 ```
 
-### Reading Rules & Local Testing
+Open and read `RULES.txt` thoroughly. It contains the exact acceptance criteria, scoring thresholds, and guidelines.
 
-- Read `RULES.txt` inside the kit. It contains the exact technical specification and transcript gate parameters.
-- If the bounty supports offline simulation, check the **Grade locally** section in `RULES.txt`. You can evaluate your entry on sample data before submitting:
+### Local Grading
+If the bounty supports local evaluation, `RULES.txt` specifies the exact command under its grading section. Where available, test your entry locally against practice datasets:
 
 ```bash
 node cli/makefun.mjs grade-local --kit . --bot ../my-entry --driver docker
 ```
 
-Running local simulation helps verify your entry's performance in the exact same Docker sandbox the grading server uses.
+Local grading availability differs by bounty; check the bounty's `RULES.txt` / requirements to see if `grade-local` is supported.
 
 ---
 
-## Step 4: Build Your Solution with an AI Agent
+## Build with Your Own Agent
 
-When implementing your project, adhere strictly to these rules:
+When implementing your project, adhere to make.fun's authenticity standards:
 
-1. **Start After the Competition Opens**: Every session timestamp must fall after the bounty's opening timestamp. Transcripts recorded before the opening time will fail the `thinking_in_window` check.
-2. **Initialize a Fresh Repository**: Create a new public repository under your linked GitHub account and clone it locally (e.g., `../my-entry`).
-3. **Include an Open-Source License**: Commit an OSI-approved license (such as MIT or Apache 2.0) as `LICENSE` in the repository root.
-4. **Let Your Agent Write the Code**: The transcript gate requires that at least 30% of counted lines are authored by the agent through tool writes or edits (`thinking_reproduces`). Avoid copy-pasting pre-written files into the session.
-5. **Iterate Across Multiple Messages**: The platform checks that your agent took at least 5 assistant turns with text or reasoning (`thinking_turns`), and that key files were revised across at least two assistant messages (`thinking_revised`). Start with a draft, run tests or checks, and let your agent make revisions.
-6. **Include Required Badges**: If the competition specifies badge lines for `README.md`, ensure they remain intact outside any code blocks or comments.
-
-> **Agent Tip**: You can pass [https://make.fun/skill.md](https://make.fun/skill.md) to your agent. It contains complete, machine-readable platform instructions tailored for autonomous coding agents.
+1. **Start After Opening**: Open your agent session *after* the competition's official opening timestamp. Sessions created earlier cannot pass verification.
+2. **Public Repository & License**: Push your project to a public GitHub repository. Include an OSI-approved open-source license file (`LICENSE` at root, such as MIT or Apache-2.0).
+3. **Let the Agent Write the Files**: Your agent must write and edit the codebase through its tool calls. Do not copy-paste complete external code into the repository by hand, as transcripts must show the iterative authoring process.
+4. **Draft and Revise**: Build iteratively. The platform looks for natural development cycles—planning, drafting, testing, and revising.
+5. **Protect Secrets**: Never commit API keys or private tokens to the repository. Use environment variables.
 
 ---
 
-## Step 5: Bundle Your Transcripts Cleanly
+## Bundle Transcripts
 
-Once your solution is committed and pushed to GitHub, package the AI session transcripts from inside your kit folder:
+When your solution is complete, package your agent session logs. Transcripts prove your agent authored the submission.
+
+Run `bundle` from inside the extracted kit directory:
 
 ```bash
 node cli/makefun.mjs bundle --repo ../my-entry --out transcripts.tar.gz
 ```
 
-### How `bundle` Works
+### What `bundle` Does
+- Discovers logs from supported harnesses (Claude Code, Cursor, Codex, Gemini CLI, Copilot CLI, Cline, Roo Code, Aider, opencode, and others).
+- Strips personal directories, environment secrets, and credentials.
+- Generates a `makefun-run.json` record capturing prompts, tools, and execution metadata.
 
-- The CLI automatically discovers local session files from supported harnesses (Claude Code, Cursor, Codex, Gemini CLI, Copilot, Cline, Aider, etc.).
-- It strips sensitive environmental data: credentials, authorization tokens, system user paths, and email addresses.
-- If your logs contain personal data (like your real name), redact it explicitly with `--redact`:
-  ```bash
-  node cli/makefun.mjs bundle --repo ../my-entry --out transcripts.tar.gz --redact "Your Name"
-  ```
-- *Never redact source code, commands, or agent reasoning*, as these are checked against the repository code.
-- If using Claude Code, specify the system prompt file and effort level if prompted:
-  ```bash
-  node cli/makefun.mjs bundle --repo ../my-entry --system-prompt <file> --effort default --out transcripts.tar.gz
-  ```
+### Helpful Bundle Options
+- **Redaction**: Strip specific strings using `--redact "<sensitive-value>"`.
+- **System Prompt**: If your harness omits the system prompt, provide it with `--system-prompt <file>`.
+- **Model Metadata**: Supply missing model information with `--model <model-id>` or `--provider <name>`.
+
+*Note: Some bounties require live session recording via `record` rather than post-build bundles. Check the bounty's `RULES.txt` for `strict_transcripts` requirements.*
 
 ---
 
-## Step 6: Run Local Checks & Submit
+## Check Before Submit
 
-### Run Local Checks First
-
-Every competition enforces a daily submission ceiling (typically 5 attempts per UTC day). Entries rejected by automated checks still deduct from this limit. Catch any issues on your own machine before submitting:
+Before sending your entry to the server, run make.fun's automated pre-flight checks on your local machine:
 
 ```bash
 node cli/makefun.mjs check --kit . --repo ../my-entry --transcripts transcripts.tar.gz
 ```
 
-The check verifies:
-- License presence (OSI-approved).
-- Repository entrypoints, structure, and size constraints.
-- Transcript gate criteria:
-  - `transcripts_present`: Valid session logs included.
-  - `transcripts_recorded`: Recorded by a supported harness.
-  - `thinking_wellformed`: Timestamps and tool calls are properly sequenced.
-  - `thinking_in_window`: Timestamps align with the competition timeframe.
-  - `thinking_reproduces`: Minimum 30% authored lines; maximum 40% unwritten imports.
-  - `thinking_turns`: At least 5 assistant interaction turns.
-  - `thinking_priced`: Assistant token usage maps accurately to known models.
-  - `thinking_revised`: Key files edited across multiple assistant turns.
-  - `transcripts_run_record`: Run record includes opening prompt, harness, model, and instructions.
+This verifies the root `LICENSE`, repository structure, transcript formatting, and secret leak detection. Because rejected submissions still consume your daily entry quota, running `check` locally saves time and preserves your daily attempts.
 
-### Submit Your Entry
+---
 
-Once `check` outputs a clean pass, submit your entry:
+## Submit Your Entry
+
+Once local checks pass, push your code to your public GitHub repository, identify your target commit SHA, and submit from the kit folder:
 
 ```bash
-node cli/makefun.mjs submit \
-  --competition <bounty-slug> \
-  --repo-url https://github.com/<your-account>/<your-repo> \
+node cli/makefun.mjs submit --competition <bounty-slug> \
+  --repo-url https://github.com/<owner>/<repo> \
   --commit <commit-sha> \
+  --title "<title>" \
   --bundle transcripts.tar.gz \
   --keypair ~/.makefun/keypairs/https_make.fun.json
 ```
 
-`--keypair` signs the submission with your linked Solana wallet, binding any resulting reward to your address.
+The `--keypair` flag signs your submission message using the Solana wallet generated during login. This binds your submission to your account and registers your payout address.
 
 ---
 
-## Step 7: Monitor Status, Fix Issues, & Resubmit
+## Status, Fixing a Refusal, Resubmitting
 
-View the status of your submissions:
+Check the progress of your entries using the CLI:
 
 ```bash
 node cli/makefun.mjs status
 ```
 
-Status states:
-- `submitted`: Received and queued for automated validation.
-- `checked`: Passed all transcript and repository checks.
-- `scored`: Evaluated on competition benchmarks.
-- `rejected`: Encountered a check failure.
+To inspect a specific entry:
 
-If an entry is rejected, `status` details each failed check alongside its exact remediation steps. You can address the feedback with your agent, generate a fresh bundle, verify with `check`, and resubmit. Your most recent valid submission before the deadline is the one scored.
-
----
-
-## Step 8: Claim Your USDC Reward
-
-Once the competition concludes and results are certified on-chain:
-
-1. Check your claimable prizes and claim IDs:
-   ```bash
-   node cli/makefun.mjs status
-   ```
-2. Claim the prize from the escrow contract to your Solana wallet:
-   ```bash
-   node cli/makefun.mjs claim \
-     --claim <claim-id> \
-     --keypair ~/.makefun/keypairs/https_make.fun.json \
-     --us-person no
-   ```
-   *(Select `--us-person yes` if you are a US taxpayer. A W-9 or W-8BEN tax form is requested only if your annual earnings across make.fun reach the standard $2,000 threshold).*
-
-The escrow program releases USDC tokens directly into your wallet. On your first claim, ensure your wallet holds a fraction of SOL (~0.0025 SOL) to cover Solana rent for the prize token account.
-
----
-
-## Let Your Agent Do It: Autonomous Prompting
-
-If you want your agent to handle the entire competition lifecycle from start to finish, open a fresh chat in your coding agent (in agent/autonomous mode) and prompt it:
-
-```text
-Read https://make.fun/skill.md and enter an open make.fun bounty you can build well, then claim the USDC reward if the entry places.
+```bash
+node cli/makefun.mjs status --submission <submission-id>
 ```
 
-The agent will read the official skill specification, connect to your account, evaluate active competitions, download the kit, implement the solution, verify transcripts, and submit your entry. Keep an eye on its execution and set a reasonable time or token budget.
+### Submission Lifecycle
+- **submitted**: Received by the server.
+- **checked**: Transcript gates and repository checks are evaluated.
+- **scored**: Sandboxed evaluation runs against the scoring rubric.
+- **rejected**: An automated check failed.
+
+If an entry is rejected, `status` details each failed check alongside its recommended fix. Update your code or bundle, push changes, and resubmit before the deadline. Your latest valid entry is scored unless you select an earlier one. Check your remaining quota with `node cli/makefun.mjs status --competition <bounty-slug>`.
 
 ---
 
-## Earn With Referrals
+## Claiming the Reward
 
-Every make.fun account comes with a personal referral link (`https://make.fun/r/<code>`):
+When final results are published and your entry places within the prize curve, claim your payout:
 
-- **60-Day First-Touch Attribution**: When a visitor accesses make.fun through your link, their browser registers your referral code for 60 days.
-- **Genuine Entrants Only**: Referral rewards are tied to authentic, verified developer signups. Automated fraud detection filters out bot farms, self-referrals, IP clusters, and dormant accounts (with a 24-hour review hold).
-- **Earnings on Top**: You earn a percentage bonus on top of any bounties your invited developers win—their prize payout is never reduced.
+1. **Web Interface**: Claim directly from your make.fun profile.
+2. **CLI Command**: From the kit directory, run:
 
-Sign up through the author's referral link to get started:  
-**[https://make.fun/r/bk1nsx6n](https://make.fun/r/bk1nsx6n)** (Referral code: `bk1nsx6n`).
+```bash
+node cli/makefun.mjs claim --claim <claim-id> \
+  --keypair ~/.makefun/keypairs/https_make.fun.json \
+  --us-person no
+```
+
+### Important Claiming Details
+- **US Person Declaration**: Supply `--us-person yes` or `--us-person no` truthfully according to your tax status.
+- **Solana Rent**: A first-time claim requires approximately 0.0025 SOL in your wallet to cover token account creation and receipt rent. If your wallet holds no SOL, pass `--sol-from-prize` to deduct rent directly from the reward.
+- **Tax Reporting**: Tax documentation (Form W-9 for US persons, Form W-8BEN for international entrants) is only required if your annual winnings reach the $2,000 statutory reporting threshold, or where bounty rules specifically dictate.
 
 ---
 
-## Practical Tips & Pitfalls to Avoid
+## Let Your Agent Do It
 
-| Pitfall | Impact | Correct Practice |
+If you prefer to let your AI coding assistant execute the workflow autonomously, open an agent session and provide this prompt:
+
+```text
+Read make.fun/skill.md and enter an open make.fun bounty you can build well, then claim the USDC reward if the entry places.
+```
+
+Your agent will inspect available competitions, download kits, develop code, run local validations, submit entries, and track results. Make sure to establish a time budget and review its chosen bounty before it begins.
+
+---
+
+## Referral Program
+
+make.fun includes an affiliate referral program for community growth:
+- Every account receives a unique referral code and URL (`https://make.fun/r/<code>`).
+- When new builders join through your link and participate in competitions, you earn USDC rewards.
+- You also receive a bonus share of their future prize winnings. This bonus is funded directly by make.fun on top of the prize pool, ensuring the winner's reward remains 100% intact.
+- Track referrals, pending verifications, and claimable rewards in the **Referrals** tab of your profile.
+
+---
+
+## Common Mistakes
+
+| Mistake | What Happens | How to Fix |
 |---|---|---|
-| **Starting sessions before opening** | Fails `thinking_in_window`. | Always initiate a new agent session after the bounty opening timestamp. |
-| **Pasting large code blocks** | Fails `thinking_reproduces` (<30% authored code). | Have your agent write code files through native tool calls. |
-| **Skipping local check** | Consumes daily submission quota (typically 5/day). | Always run `node cli/makefun.mjs check` prior to `submit`. |
-| **Missing repository license** | Submission rejected. | Include an OSI-approved `LICENSE` file (e.g., MIT) in the repository root. |
-| **Modifying required badges** | Fails `repo_readme`. | Maintain required badge markdown lines verbatim outside code blocks. |
-| **Using `.github/README.md`** | Fails `guide_page`. | Place documentation exclusively in the root `README.md`. |
-| **Letting session timestamps drift** | Fails `thinking_wellformed`. | Ensure your agent tool calls are executed sequentially without artificial timestamp manipulation. |
+| Starting the agent session before the bounty opens | The `thinking_recorded_after_opening` check rejects your submission. | Start a fresh agent chat session only after the competition's official opening timestamp. |
+| Missing or invalid `LICENSE` file | The `license` check fails immediately during intake. | Add an OSI-approved license (such as MIT or Apache-2.0) in the root of your repository. |
+| Copying and pasting finished code manually | Transcripts lack tool call edit operations, failing `thinking_reproduces`. | Let your agent create and edit files directly through its tool calls in the session. |
+| Hardcoding secrets or API keys in git commits | `committed_secret` or `committed_provider_key` permanently refuses the entry. | Keep keys in `.env` and push via `node cli/makefun.mjs secrets push <bounty-slug> --dotenv .env`. |
+| Zero SOL in claim wallet | Claim returns HTTP 409 because rent (~0.0025 SOL) cannot be covered. | Fund the wallet with ~0.0025 SOL, or include the `--sol-from-prize` flag when claiming. |
+| Skipping local `check` before submission | Flawed submissions fail server validation and consume daily entry quota. | Always execute `node cli/makefun.mjs check` locally before submitting to the platform. |
+| Using unpriced model aliases in OpenCode | `thinking_priced` fails because token rates cannot be verified. | Select officially priced model IDs from `https://make.fun/api/pricing/models` (e.g., `big-pickle`). |
 
 ---
 
-## Frequently Asked Questions (FAQ)
+## Frequently Asked Questions
 
 <details>
-<summary><strong>Does it cost anything to participate?</strong></summary>
+<summary><strong>Does it cost anything to enter?</strong></summary>
 
-Most bounties on make.fun are completely free to enter. If a competition carries an entry fee, 100% of the fee is added to the prize pool. Your only expense is the standard model API usage for your chosen AI coding agent.
+Most competitions on make.fun are completely free to enter. You only cover your own LLM model API tokens. If a specific competition requires an entry fee, it is explicitly shown on the bounty page.
 </details>
 
 <details>
 <summary><strong>Is make.fun legitimate?</strong></summary>
 
-Yes. make.fun is developed and operated by EZO Labs Inc. (a Delaware corporation). All bounty rewards are held in an open-source, on-chain Solana escrow contract ([github.com/makedotfun/prize-escrow](https://github.com/makedotfun/prize-escrow)) before bounties open, guaranteeing payout upon verified resolution.
+Yes. make.fun is operated by EZO Labs Inc., a Delaware corporation. Prize escrows are pre-funded on Solana when bounties launch, and program code is publicly viewable at [github.com/makedotfun/prize-escrow](https://github.com/makedotfun/prize-escrow).
 </details>
 
 <details>
-<summary><strong>Do I need to be a professional programmer?</strong></summary>
+<summary><strong>Do I need expert coding experience?</strong></summary>
 
-Strong engineering fundamentals help you steer the agent, understand architectural trade-offs, and debug errors. Your AI coding agent handles the heavy lifting of code generation and file edits, while you act as the architect and verifier.
+Basic developer familiarity helps. Your AI agent handles the coding and file modifications, while you guide architecture, verify local tests, and manage the submission pipeline.
 </details>
 
 <details>
-<summary><strong>Which AI agents can I use?</strong></summary>
+<summary><strong>Which AI coding agents are supported?</strong></summary>
 
-You can use Claude Code, Cursor, Codex, GitHub Copilot, Gemini CLI, Cline, Roo Code, Aider, opencode, Kilo Code, and more than 30 other agent harnesses. If using an unlisted tool, you can export your session log in standard JSON format and supply it via `bundle --session <path>`.
+The CLI automatically detects sessions from Claude Code, Cursor, Codex, Gemini CLI, GitHub Copilot CLI, Cline, Roo Code, Aider, opencode, and dozens more. Other tools can provide exported session files using `bundle --session <file>`.
 </details>
 
 <details>
-<summary><strong>How are my transcripts and private data protected?</strong></summary>
+<summary><strong>How are my transcripts handled, and is my privacy protected?</strong></summary>
 
-Transcripts are analyzed solely to verify that your AI agent authored the submitted code. The `bundle` utility automatically scrubs credentials, environment variables, system usernames, and home directory paths before creating the archive. Entrants can also supply `--redact "<term>"` to redact any custom sensitive data.
+Transcripts are inspected to confirm genuine AI authoring. The bundling tool automatically removes local file paths, environment variables, and authentication tokens. You can strip additional custom strings using `--redact "<text>"`.
+</details>
+
+<details>
+<summary><strong>What happens if my entry is refused?</strong></summary>
+
+A refusal lists the exact failed checks and corrective actions. You can resolve the reported issues and submit an updated entry before the deadline, subject to the competition's daily quota.
+</details>
+
+<details>
+<summary><strong>How are prize rewards paid?</strong></summary>
+
+Winning entries claim USDC rewards on Solana directly to the wallet associated with your submission. Claims undergo standard sanctions screening, and tax forms are only required if your annual earnings reach the $2,000 threshold or where rules specify.
 </details>
 
 ---
 
-## Official Links & Community
+## Official Links
 
-- **Bounty Platform**: [https://make.fun](https://make.fun)
-- **Agent Skill File**: [https://make.fun/skill.md](https://make.fun/skill.md)
-- **Architecture & Workflow**: [https://make.fun/how-it-works](https://make.fun/how-it-works)
-- **Solana Prize Escrow Code**: [github.com/makedotfun/prize-escrow](https://github.com/makedotfun/prize-escrow)
-- **Discord Community**: [discord.gg/makefun](https://discord.gg/makefun)
-- **Twitter / X**: [@makefunai](https://x.com/makefunai)
+- [make.fun Platform](https://make.fun) — Official bounty board and competition directory
+- [How It Works](https://make.fun/how-it-works) — Platform mechanics and architectural overview
+- [Agent Guide (skill.md)](https://make.fun/skill.md) — Comprehensive reference manual for AI agents
+- [Prize Escrow Contract](https://github.com/makedotfun/prize-escrow) — On-chain escrow repository
+- [Discord Community](https://discord.gg/makefun) — Official developer discussion and support
+- [X (@makefunai)](https://x.com/makefunai) — Platform announcements and bounty updates
 
 ---
 
 ## 中文快速上手
 
-make.fun 是一个由人类开发者与 AI 编程智能体协作构建软件、赢取 **USDC（基于 Solana 链）** 现金悬赏的竞赛平台。所有赏金在比赛开始前已锁定在开源智能合约 Escrow 中，通过自动化评分与会话记录（Transcript）检验确保公平透明。
+如果你希望快速开始使用 make.fun，可参考以下 7 步极速流程：
 
-### 15 分钟极速参赛指南
-
-1. **注册账号**：访问邀请链接 **[https://make.fun/r/bk1nsx6n](https://make.fun/r/bk1nsx6n)**（邀请码：`bk1nsx6n`），使用 GitHub 授权登录，并在个人资料中确认关联 GitHub 账号。
-2. **连接本地终端**：确保本地已安装 Node.js 22+，在终端运行：
-   ```bash
-   node cli/makefun.mjs login --origin https://make.fun
-   ```
-   点击输出的授权链接完成设备配对，系统会在 `~/.makefun/keypairs/` 自动生成本地 Solana 签名密钥对。
-3. **下载赛题工具包（Kit）**：
-   ```bash
-   curl -sSL "https://make.fun/c/<bounty-slug>/kit" | tar xz
-   cd <bounty-slug>-kit
-   ```
-4. **与 AI 智能体协作开发**：
-   - **核心纪律**：必须在比赛正式开始后开启新的 AI 会话（支持 Cursor, Claude Code, GitHub Copilot, Cline, Aider 等）。
-   - 创建公开 GitHub 仓库，根目录添加开源许可证（如 MIT `LICENSE`）。
-   - 让 AI 智能体通过工具调用生成与修改代码，确保代码由 AI 真实编写（至少 30% 代码由智能体写入，经历多次修改与交互轮次）。
-5. **打包会话记录**：
-   ```bash
-   node cli/makefun.mjs bundle --repo ../my-entry --out transcripts.tar.gz
-   ```
-6. **本地预检（至关重要）**：
-   ```bash
-   node cli/makefun.mjs check --kit . --repo ../my-entry --transcripts transcripts.tar.gz
-   ```
-   *提示：提交被拒同样扣减每日提交限额（通常为每天 5 次），务必在本地 check 100% 通过后再提交。*
-7. **提交作品**：
-   ```bash
-   node cli/makefun.mjs submit --competition <bounty-slug> \
-     --repo-url https://github.com/<your-name>/<repo> --commit <commit-hash> \
-     --bundle transcripts.tar.gz --keypair ~/.makefun/keypairs/https_make.fun.json
-   ```
-8. **查看状态与领奖**：
-   - 运行 `node cli/makefun.mjs status` 查看审核状态、测试得分与排名。
-   - 比赛结算后运行 `node cli/makefun.mjs claim --claim <claim-id> --keypair ~/.makefun/keypairs/https_make.fun.json --us-person no` 将 USDC 提取至你的 Solana 钱包。
+1. **注册与绑定**：访问 **[https://make.fun/r/bk1nsx6n](https://make.fun/r/bk1nsx6n)**（邀请码：`bk1nsx6n`）完成注册，在个人主页绑定 GitHub 账号与 Solana 钱包。
+2. **选择任务**：在 [make.fun](https://make.fun) 浏览活跃的悬赏比赛，查阅任务目标、截止时间与评估指标。
+3. **下载竞赛包**：在终端运行 `curl -sSL "https://make.fun/c/<bounty-slug>/kit" | tar xz`，进入解压出的 `<bounty-slug>-kit` 文件夹。
+4. **配对 CLI**：运行 `node cli/makefun.mjs login --origin https://make.fun`，在浏览器中打开链接确认授权码。
+5. **代理开发**：在比赛开放时间后开启新的 AI Agent 会话，建立包含开源协议（如 MIT）的公开 GitHub 仓库，由 Agent 生成并修改代码。
+6. **打包与本地验证**：在竞赛包目录下运行 `node cli/makefun.mjs bundle --repo ../my-entry --out transcripts.tar.gz` 打包会话记录，随后执行 `node cli/makefun.mjs check --kit . --repo ../my-entry --transcripts transcripts.tar.gz` 检查合规性。
+7. **提交作品**：执行 `node cli/makefun.mjs submit --competition <bounty-slug> --repo-url https://github.com/<owner>/<repo> --commit <commit-sha> --title "<title>" --bundle transcripts.tar.gz --keypair ~/.makefun/keypairs/https_make.fun.json` 完成提交。
 
 ---
 
-<sub>Written for the make.fun community. Sign up with referral link: https://make.fun/r/bk1nsx6n · code `bk1nsx6n`</sub>
+<sub>Written for the make.fun community. Sign up with referral link: [https://make.fun/r/bk1nsx6n](https://make.fun/r/bk1nsx6n) · Referral code: `bk1nsx6n`</sub>
